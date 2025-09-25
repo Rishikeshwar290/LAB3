@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriCalc - Your Complete Nutrition Companion</title>
+    <meta name="description" content="Track your nutrition journey with our comprehensive nutrition calculator, daily tracker, and BMI calculator. Make informed decisions about your diet and health.">
+    <meta name="keywords" content="nutrition calculator, calorie tracker, BMI calculator, healthy eating, diet tracker">
+    <meta name="author" content="NutriCalc">
+    <meta property="og:title" content="NutriCalc - Your Complete Nutrition Companion">
+    <meta property="og:description" content="Track your nutrition journey with our comprehensive nutrition calculator, daily tracker, and BMI calculator.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NutriCalc - Your Complete Nutrition Companion">
+    <meta name="twitter:description" content="Track your nutrition journey with our comprehensive nutrition calculator, daily tracker, and BMI calculator.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="canonical" href="https://nutricalc.web.app/">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍎</text></svg>">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-apple-alt"></i>
+                <span>NutriCalc</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#calculator" class="nav-link">Calculator</a></li>
+                <li><a href="#tracker" class="nav-link">Tracker</a></li>
+                <li><a href="#bmi" class="nav-link">BMI</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Track Your Nutrition Journey</h1>
+                <p>Calculate nutrients, track your daily intake, and maintain a healthy lifestyle with our comprehensive nutrition tools.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('calculator')">Start Calculating</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('tracker')">Track Nutrition</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+        </section>
+
+        <!-- Nutrient Calculator Section -->
+        <section id="calculator" class="section">
+            <div class="container">
+                <h2 class="section-title">Nutrient Calculator</h2>
+                <div class="calculator-grid">
+                    <div class="calculator-form">
+                        <div class="form-group">
+                            <label for="food-search">Search Food Item</label>
+                            <div class="search-container">
+                                <input type="text" id="food-search" placeholder="Enter food name..." autocomplete="off">
+                                <i class="fas fa-search"></i>
+                                <div id="search-results" class="search-results"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Quantity (grams)</label>
+                            <input type="number" id="quantity" value="100" min="1" max="10000">
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="calculateNutrients()">
+                            <i class="fas fa-calculator"></i> Calculate Nutrients
+                        </button>
+                    </div>
+                    
+                    <div class="nutrition-results">
+                        <h3>Nutritional Information</h3>
+                        <div id="nutrition-display" class="nutrition-display">
+                            <div class="nutrition-placeholder">
+                                <i class="fas fa-apple-alt"></i>
+                                <p>Search and select a food item to see its nutritional breakdown</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Tracker Section -->
+        <section id="tracker" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Daily Nutrition Tracker</h2>
+                <div class="tracker-grid">
+                    <div class="tracker-form">
+                        <h3>Add Food to Today's Log</h3>
+                        <div class="form-group">
+                            <label for="tracker-food">Food Item</label>
+                            <select id="tracker-food">
+                                <option value="">Select a food item</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tracker-quantity">Quantity (grams)</label>
+                            <input type="number" id="tracker-quantity" value="100" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="tracker-meal">Meal Type</label>
+                            <select id="tracker-meal">
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="snack">Snack</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="addToTracker()">
+                            <i class="fas fa-plus"></i> Add to Log
+                        </button>
+                    </div>
+                    
+                    <div class="tracker-summary">
+                        <h3>Today's Summary</h3>
+                        <div class="summary-cards">
+                            <div class="summary-card">
+                                <i class="fas fa-fire"></i>
+                                <div>
+                                    <span class="value" id="total-calories">0</span>
+                                    <span class="label">Calories</span>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <i class="fas fa-drumstick-bite"></i>
+                                <div>
+                                    <span class="value" id="total-protein">0g</span>
+                                    <span class="label">Protein</span>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <i class="fas fa-bread-slice"></i>
+                                <div>
+                                    <span class="value" id="total-carbs">0g</span>
+                                    <span class="label">Carbs</span>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <i class="fas fa-tint"></i>
+                                <div>
+                                    <span class="value" id="total-fat">0g</span>
+                                    <span class="label">Fat</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-chart">
+                            <canvas id="nutrition-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="food-log">
+                    <h3>Today's Food Log</h3>
+                    <div id="food-log-list" class="food-log-list">
+                        <div class="empty-state">
+                            <i class="fas fa-utensils"></i>
+                            <p>No food items logged yet. Start by adding your first meal!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BMI Calculator Section -->
+        <section id="bmi" class="section">
+            <div class="container">
+                <h2 class="section-title">BMI Calculator</h2>
+                <div class="bmi-calculator">
+                    <div class="bmi-form">
+                        <div class="form-group">
+                            <label for="height">Height (cm)</label>
+                            <input type="number" id="height" placeholder="Enter your height" min="50" max="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="Enter your weight" min="20" max="500">
+                        </div>
+                        <button class="btn btn-primary" onclick="calculateBMI()">
+                            <i class="fas fa-calculator"></i> Calculate BMI
+                        </button>
+                    </div>
+                    
+                    <div class="bmi-result">
+                        <div id="bmi-display" class="bmi-display">
+                            <div class="bmi-placeholder">
+                                <i class="fas fa-heartbeat"></i>
+                                <p>Enter your height and weight to calculate your BMI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">About NutriCalc</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>NutriCalc is your comprehensive nutrition companion designed to help you make informed decisions about your diet and health. Our platform provides accurate nutritional calculations, daily tracking capabilities, and health assessments to support your wellness journey.</p>
+                        
+                        <h3>Features:</h3>
+                        <ul class="features-list">
+                            <li><i class="fas fa-calculator"></i> Detailed nutrient calculator with extensive food database</li>
+                            <li><i class="fas fa-chart-line"></i> Daily nutrition tracking and progress monitoring</li>
+                            <li><i class="fas fa-weight"></i> BMI calculator for health assessment</li>
+                            <li><i class="fas fa-mobile-alt"></i> Responsive design for all devices</li>
+                            <li><i class="fas fa-chart-pie"></i> Visual nutrition breakdowns and charts</li>
+                        </ul>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">1000+</span>
+                            <span class="stat-label">Food Items</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Nutrients</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-apple-alt"></i>
+                    <span>NutriCalc</span>
+                </div>
+                <p>&copy; 2024 NutriCalc. All rights reserved. Made with ❤️ for better nutrition.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+        <div id="chatbot-toggle" class="chatbot-toggle">
+            <i class="fas fa-robot"></i>
+            <span class="chatbot-toggle-text">Health Assistant</span>
+        </div>
+        <div id="chatbot-container" class="chatbot-container">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <i class="fas fa-robot"></i>
+                    <span>Health Assistant</span>
+                </div>
+                <button id="chatbot-close" class="chatbot-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatbot-messages" class="chatbot-messages">
+                <div class="chatbot-message bot-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p>Hi! I'm your Health Assistant. I can help you with:</p>
+                        <ul>
+                            <li>Nutrition advice and meal planning</li>
+                            <li>General health questions</li>
+                            <li>BMI and weight management tips</li>
+                            <li>Healthy lifestyle suggestions</li>
+                        </ul>
+                        <p>What would you like to know about your health?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input-container">
+                <input type="text" id="chatbot-input" placeholder="Ask me about your health..." autocomplete="off">
+                <button id="chatbot-send" class="chatbot-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="chatbot-quick-actions">
+                <button class="quick-action-btn" data-message="How can I lose weight safely?">Weight Loss</button>
+                <button class="quick-action-btn" data-message="What foods should I eat for better nutrition?">Nutrition Tips</button>
+                <button class="quick-action-btn" data-message="How can I improve my BMI?">BMI Help</button>
+                <button class="quick-action-btn" data-message="What are some healthy meal ideas?">Meal Ideas</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html>
